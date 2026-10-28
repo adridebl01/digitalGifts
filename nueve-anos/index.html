@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nueve años, gorda</title>
+<meta name="description" content="Un plan secreto para un día de diciembre. Entra una vez al día: irán apareciendo recuerdos, sorpresas y pistas.">
+<meta property="og:title" content="Nueve años, gorda">
+<meta property="og:description" content="Un plan secreto para un día de diciembre. Entra una vez al día.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#2a0b14">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%23a3162f'/><text x='50' y='66' font-size='46' text-anchor='middle' fill='%23f6e7c1' font-family='Georgia'>IX</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Figtree:wght@400;500;700&family=Caveat:wght@600&display=swap">
+<style>
+/* Una columna pensada para el móvil: sobre lacrado arriba, el plan, y debajo el diario de entregas que se van desbloqueando por fecha */
+:root {
+  --wine: #3a0f1c;
+  --wine-deep: #2a0b14;
+  --gold: #e9b949;
+  --paper: #f6e7c1;
+  --wax: #a3162f;
+  --muted: #d3bf9c;
+  --line: rgba(233, 185, 73, .35);
+  --display: "Gloock", Georgia, "Times New Roman", serif;
+  --body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --hand: "Caveat", "Bradley Hand", cursive;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--wine-deep);
+  color: var(--paper);
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.55;
+  padding-inline: max(18px, env(safe-area-inset-left, 0px));
+  padding-block: calc(40px + env(safe-area-inset-top, 0px)) calc(64px + env(safe-area-inset-bottom, 0px));
+  -webkit-font-smoothing: antialiased;
+}
+/* Foto de fondo fija; se oscurece hacia abajo para que se lea el texto */
+.bg {
+  position: fixed; inset: 0; z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(42,11,20,.1) 0%, rgba(42,11,20,.25) 38%, rgba(42,11,20,.82) 60%, rgba(42,11,20,.94) 100%),
+    url("fotos/fondo.jpg") 50% 40% / cover no-repeat,
+    var(--wine-deep);
+}
+main { max-width: 540px; margin: 0 auto; display: grid; gap: 44px; }
+
+.eyebrow {
+  text-transform: uppercase; letter-spacing: .18em; font-size: .72rem;
+  color: var(--gold); font-weight: 700;
+}
+
+/* Portada */
+.hero { display: grid; gap: 16px; padding-top: min(48vh, 440px); text-shadow: 0 2px 14px rgba(0,0,0,.55); }
+.seal {
+  width: 76px; height: 76px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #c93a52, var(--wax) 55%, #6e0c1f);
+  display: grid; place-items: center;
+  font-family: var(--display); font-size: 1.7rem; color: var(--paper);
+  box-shadow: 0 4px 0 #4d0815, inset 0 -4px 8px rgba(0,0,0,.25);
+  animation: drop .7s cubic-bezier(.3,1.5,.5,1) both;
+}
+h1 {
+  font-family: var(--display); font-weight: 400; margin: 0;
+  font-size: clamp(2.5rem, 12vw, 4.2rem); line-height: .98; text-wrap: balance;
+}
+h1 em { font-style: normal; color: var(--gold); }
+.lede { margin: 0; color: var(--muted); font-size: 1.1rem; max-width: 44ch; }
+
+/* El plan */
+.plan {
+  background: var(--paper); color: var(--wine-deep);
+  border-radius: 6px; padding: 28px 24px 26px;
+  display: grid; gap: 14px; transform: rotate(-.8deg);
+  box-shadow: 0 20px 44px rgba(0,0,0,.4);
+}
+.plan .eyebrow { color: var(--wax); }
+.plan h2 { font-family: var(--display); font-weight: 400; font-size: 1.8rem; line-height: 1.1; margin: 0; }
+.plan p { margin: 0; font-size: 1.04rem; }
+.facts { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 0; border-top: 1px solid rgba(42,11,20,.18); }
+.facts li { display: grid; grid-template-columns: 7.5rem 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(42,11,20,.18); }
+.facts b { text-transform: uppercase; letter-spacing: .12em; font-size: .7rem; color: var(--wax); padding-top: 4px; }
+.facts span { min-width: 0; }
+.redacted { background: var(--wine-deep); color: transparent; border-radius: 2px; padding: 0 .3em; user-select: none; }
+.sign { font-family: var(--hand); font-size: 1.9rem; color: var(--wax); text-align: right; line-height: 1; margin-top: 4px; }
+
+/* Contador de diciembre */
+.countdown { display: grid; gap: 6px; text-align: center; }
+.countdown .num { font-family: var(--display); font-size: 3.4rem; line-height: 1; color: var(--gold); font-variant-numeric: tabular-nums; }
+.countdown p { margin: 0; color: var(--muted); }
+
+/* Diario de entregas */
+.feed-head { display: grid; gap: 6px; }
+.feed-head h2 { font-family: var(--display); font-weight: 400; font-size: 1.7rem; margin: 0; }
+.feed-head p { margin: 0; color: var(--muted); }
+.tally { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.chip {
+  border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px;
+  font-size: .82rem; color: var(--paper); font-variant-numeric: tabular-nums;
+}
+.chip b { color: var(--gold); font-weight: 700; }
+
+.feed { display: grid; gap: 16px; }
+.entry {
+  border: 1px solid var(--line); border-radius: 14px; padding: 18px;
+  background: rgba(246, 231, 193, .04);
+  display: grid; gap: 10px; animation: rise .5s ease both;
+}
+.entry-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.kind { text-transform: uppercase; letter-spacing: .14em; font-size: .7rem; font-weight: 700; }
+.kind.recuerdo { color: #f0a6b4; }
+.kind.sorpresa { color: var(--gold); }
+.kind.pista { color: #9fd4c4; }
+.date { font-size: .8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.new { background: var(--wax); color: var(--paper); border-radius: 999px; padding: 1px 8px; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; margin-left: 6px; }
+.entry h3 { font-family: var(--display); font-weight: 400; font-size: 1.35rem; line-height: 1.2; margin: 0; }
+.entry p { margin: 0; color: var(--muted); }
+.entry img { width: 100%; max-width: 100%; border-radius: 8px; display: block; }
+
+.locked {
+  border: 1px dashed var(--line); border-radius: 14px; padding: 18px;
+  display: flex; align-items: center; gap: 14px; color: var(--muted);
+}
+.locked .mini-seal {
+  flex: none; width: 36px; height: 36px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #c93a52, var(--wax) 55%, #6e0c1f); opacity: .7;
+}
+.locked p { margin: 0; min-width: 0; }
+.locked strong { color: var(--paper); font-weight: 600; }
+
+.empty { text-align: center; color: var(--muted); padding: 22px 12px; border: 1px dashed var(--line); border-radius: 14px; }
+.empty p { margin: 0; }
+.empty .hand { font-family: var(--hand); font-size: 1.6rem; color: var(--gold); margin-top: 4px; }
+
+footer { text-align: center; color: var(--muted); font-size: .78rem; letter-spacing: .08em; }
+
+@keyframes drop { from { opacity: 0; transform: translateY(-18px) scale(1.2) rotate(-15deg); } to { opacity: 1; transform: none; } }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .seal, .entry { animation: none; } }
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<main>
+
+  <header class="hero">
+    <div class="seal" aria-hidden="true">IX</div>
+    <span class="eyebrow">From 28-10-2017 to infinite</span>
+    <h1>Nueve años<br>y un <em>plan secreto</em></h1>
+    <p class="lede">Nueve años juntos merecen algo más que una cena. Así que te he preparado un plan, pero no te voy a decir cuál es. Todavía.</p>
+  </header>
+
+  <section class="plan" aria-labelledby="plan-title">
+    <span class="eyebrow">Tu regalo</span>
+    <h2 id="plan-title">Un día de diciembre es tuyo</h2>
+    <p>Tengo reservado un día de diciembre solo para nosotros. Lo que haremos es un secreto, y lo vas a ir descubriendo tú.</p>
+    <p>Hasta ese día, guarda este enlace y entra una vez al día. Irán apareciendo recuerdos nuestros, alguna sorpresa y pistas. Si las juntas bien, igual adivinas el plan antes de que llegue.</p>
+    <ul class="facts">
+      <li><b>Cuándo</b><span>Un día de diciembre de 2026</span></li>
+      <li><b>Qué</b><span><span class="redacted" aria-label="tachado">xxxxxxxxxxxxxx</span> (secreto)</span></li>
+      <li><b>Dónde</b><span>En Madrid. Más no te digo.</span></li>
+      <li><b>Qué hacer</b><span>Volver aquí y estar atenta</span></li>
+    </ul>
+    <p class="sign">Te amo infinito gorda</p>
+  </section>
+
+  <section class="countdown" aria-live="polite">
+    <span class="eyebrow" id="cd-label">Faltan para diciembre</span>
+    <span class="num" id="cd-num">–</span>
+    <p id="cd-text">días</p>
+  </section>
+
+  <section aria-labelledby="feed-title" style="display:grid; gap:18px;">
+    <div class="feed-head">
+      <h2 id="feed-title">Migas de nosotros</h2>
+      <p>Pedacitos de estos nueve años que, uno a uno, te llevan hasta diciembre.</p>
+      <div class="tally" id="tally"></div>
+    </div>
+    <div class="feed" id="feed"></div>
+  </section>
+
+  <footer>IX · Feliz aniversario</footer>
+</main>
+
+<script>
+/*
+  ENTREGAS
+  Añade aquí recuerdos, sorpresas y pistas. Cada una aparece sola a partir de su fecha (desde las 00:00, hora de su móvil).
+  - tipo: "recuerdo" | "sorpresa" | "pista"
+  - fecha: "AAAA-MM-DD"
+  - imagen (opcional): ruta a una foto subida al repo, por ejemplo "fotos/playa-2018.jpg"
+
+  Ojo: el repo es público. Quien mire el código fuente puede leer las entregas futuras,
+  así que no escribas aquí el plan tal cual.
+
+  Ejemplo:
+  { tipo: "recuerdo", fecha: "2026-11-05", titulo: "Nuestra primera cita", texto: "¿Te acuerdas de...?", imagen: "fotos/primera-cita.jpg" },
+*/
+const ENTREGAS = [
+];
+
+(() => {
+  const ETIQUETAS = { recuerdo: "Recuerdo", sorpresa: "Sorpresa", pista: "Pista" };
+  const PLURAL = { recuerdo: "recuerdos", sorpresa: "sorpresas", pista: "pistas" };
+  const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+  const aFecha = s => { const [a, m, d] = s.split("-").map(Number); return new Date(a, m - 1, d); };
+  const fmt = d => d.toLocaleDateString("es-ES", { day: "numeric", month: "long" });
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  // Contador hasta el 1 de diciembre
+  const diciembre = new Date(2026, 11, 1);
+  const dias = Math.round((diciembre - hoy) / 86400000);
+  const num = document.getElementById("cd-num");
+  if (dias > 0) {
+    num.textContent = dias;
+    document.getElementById("cd-text").textContent = dias === 1 ? "día. Mañana empieza diciembre." : "días. Y luego, ya veremos qué día cae.";
+  } else {
+    document.getElementById("cd-label").textContent = "Ya es diciembre";
+    num.textContent = "🤫";
+    document.getElementById("cd-text").textContent = "Queda muy poco. Atenta a las pistas.";
+  }
+
+  // Entregas: marcar como nuevas las que no ha visto en este móvil
+  let vistas = [];
+  try { vistas = JSON.parse(localStorage.getItem("vistas") || "[]"); } catch (e) {}
+  const id = e => e.fecha + "|" + e.titulo;
+
+  const ordenadas = [...ENTREGAS].sort((a, b) => a.fecha.localeCompare(b.fecha));
+  const abiertas = ordenadas.filter(e => aFecha(e.fecha) <= hoy).reverse();
+  const proxima = ordenadas.find(e => aFecha(e.fecha) > hoy);
+
+  const tally = document.getElementById("tally");
+  tally.innerHTML = Object.keys(ETIQUETAS).map(t => {
+    const n = abiertas.filter(e => e.tipo === t).length;
+    return `<span class="chip"><b>${n}</b> ${PLURAL[t]}</span>`;
+  }).join("");
+
+  const feed = document.getElementById("feed");
+  let html = "";
+  if (proxima) {
+    html += `<div class="locked"><span class="mini-seal" aria-hidden="true"></span>
+      <p>Lo siguiente llega el <strong>${fmt(aFecha(proxima.fecha))}</strong>. No hagas trampas.</p></div>`;
+  }
+  if (!abiertas.length) {
+    html += `<div class="empty"><p>Todavía no ha llegado nada. La primera entrega está al caer.</p>
+      <p class="hand">Paciencia, gorda</p></div>`;
+  }
+  html += abiertas.map(e => `
+    <article class="entry">
+      <div class="entry-top">
+        <span class="kind ${esc(e.tipo)}">${esc(ETIQUETAS[e.tipo] || e.tipo)}${vistas.includes(id(e)) ? "" : '<span class="new">Nuevo</span>'}</span>
+        <span class="date">${fmt(aFecha(e.fecha))}</span>
+      </div>
+      <h3>${esc(e.titulo)}</h3>
+      ${e.imagen ? `<img src="${esc(e.imagen)}" alt="${esc(e.titulo)}" loading="lazy">` : ""}
+      ${e.texto ? `<p>${esc(e.texto)}</p>` : ""}
+    </article>`).join("");
+  feed.innerHTML = html;
+
+  try { localStorage.setItem("vistas", JSON.stringify([...new Set([...vistas, ...abiertas.map(id)])])); } catch (e) {}
+})();
+</script>
+</body>
+</html>
