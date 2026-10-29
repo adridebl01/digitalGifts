@@ -121,6 +121,14 @@ h1 em { font-style: normal; color: var(--gold); }
 .entry h3 { font-family: var(--display); font-weight: 400; font-size: 1.35rem; line-height: 1.2; margin: 0; }
 .entry p { margin: 0; color: var(--muted); }
 .entry img { width: 100%; max-width: 100%; border-radius: 8px; display: block; }
+.entry .text { display: grid; gap: 10px; }
+/* Dos fotos lado a lado, como polaroids un poco torcidas */
+.duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 6px 0 4px; }
+.duo figure { margin: 0; background: var(--paper); padding: 6px 6px 4px; border-radius: 3px; box-shadow: 0 10px 22px rgba(0,0,0,.35); }
+.duo figure:first-child { transform: rotate(-2deg); }
+.duo figure:last-child { transform: rotate(1.6deg); }
+.duo img { aspect-ratio: 3 / 4; object-fit: cover; border-radius: 2px; }
+.duo figcaption { font-family: var(--hand); font-size: 1.25rem; color: var(--wine-deep); text-align: center; line-height: 1.3; }
 
 .locked {
   border: 1px dashed var(--line); border-radius: 14px; padding: 18px;
@@ -194,6 +202,8 @@ footer { text-align: center; color: var(--muted); font-size: .78rem; letter-spac
   - tipo: "recuerdo" | "sorpresa" | "pista"
   - fecha: "AAAA-MM-DD"
   - imagen (opcional): ruta a una foto subida al repo, por ejemplo "fotos/playa-2018.jpg"
+  - imagenes (opcional): dos fotos lado a lado, [{ src: "fotos/a.jpg", pie: "..." }, { src: "fotos/b.jpg", pie: "..." }]
+  - texto: un texto o una lista de párrafos
 
   Ojo: el repo es público. Quien mire el código fuente puede leer las entregas futuras,
   así que no escribas aquí el plan tal cual.
@@ -202,6 +212,17 @@ footer { text-align: center; color: var(--muted); font-size: .78rem; letter-spac
   { tipo: "recuerdo", fecha: "2026-11-05", titulo: "Nuestra primera cita", texto: "¿Te acuerdas de...?", imagen: "fotos/primera-cita.jpg" },
 */
 const ENTREGAS = [
+  {
+    tipo: "recuerdo", fecha: "2026-10-29", titulo: "Antes de nosotros",
+    imagenes: [
+      { src: "fotos/alba-peque.jpg", pie: "Tú y Poo" },
+      { src: "fotos/adri-peque.jpg", pie: "Yo, sin saberlo" },
+    ],
+    texto: [
+      "Nueve años juntos. Eso ya es más de un tercio de nuestra vida. No crecimos juntos desde pequeños, pero nos conocemos tan bien que casi lo parece. A veces pienso que esa niña del puerto y ese niño del jersey ya se tenían fichados.",
+      "Sé que a Poo no lo voy a superar nunca: llegó antes, nunca te ha fallado y tiene el puesto más que ganado. Yo me conformo con ser para ti el mismo lugar seguro que es él… y con que por las noches me abraces tanto como lo abrazas a él.",
+    ],
+  },
 ];
 
 (() => {
@@ -258,7 +279,8 @@ const ENTREGAS = [
       </div>
       <h3>${esc(e.titulo)}</h3>
       ${e.imagen ? `<img src="${esc(e.imagen)}" alt="${esc(e.titulo)}" loading="lazy">` : ""}
-      ${e.texto ? `<p>${esc(e.texto)}</p>` : ""}
+      ${e.imagenes ? `<div class="duo">${e.imagenes.map(f => `<figure><img src="${esc(f.src)}" alt="${esc(f.pie)}" loading="lazy"><figcaption>${esc(f.pie)}</figcaption></figure>`).join("")}</div>` : ""}
+      ${e.texto ? `<div class="text">${[].concat(e.texto).map(p => `<p>${esc(p)}</p>`).join("")}</div>` : ""}
     </article>`).join("");
   feed.innerHTML = html;
 
